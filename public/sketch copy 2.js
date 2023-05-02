@@ -30,25 +30,25 @@ function setup() {
   createCanvas(x, y);
 
   /*************** play button ***************/
-  ellipse((2 * x) / 4, (3 * y) / 4, y / 6);
+  ellipse((2 * x) / 4, (3 * y) / 4 + y / 16, y / 4);
   text("⏯", (2 * x) / 4, (3 * y) / 4);
 
   /*************** next button ***************/
-  ellipse((3 * x) / 4, (3 * y) / 4, y / 6);
+  ellipse((3 * x) / 4, (3 * y) / 4 + y / 16, y / 4);
   text("⏭", (3 * x) / 4, (3 * y) / 4);
 
   /*************** previous button ***************/
-  ellipse((1 * x) / 4, (3 * y) / 4, y / 6);
+  ellipse((1 * x) / 4, (3 * y) / 4 + y / 16, y / 4);
   text("⏮", (1 * x) / 4, (3 * y) / 4);
 
   /*************** reset button ***************/
-  ellipse((2 * x) / 3, (1 * y) / 4, y / 6);
-  text("⏹️", (2 * x) / 3, (1 * y) / 4);
+  ellipse((2 * x) / 3, (1 * y) / 7.5, y / 4);
+  text("⏹️", (2 * x) / 3, (1 * y) / 7.5);
 
   /************* loop button ************/
   Loop = createButton("🔂");
-  Loop.position((1 * x) / 3 - y / 12, (1 * y) / 4 - y / 12);
-  Loop.size(y / 6, y / 6);
+  Loop.position((1 * x) / 3 - y / 12, (1 * y) / 8 - y / 12);
+  Loop.size(y / 6, y / 5);
 }
 
 function draw() {
@@ -58,16 +58,16 @@ function draw() {
   noFill();
   rect(
     (1 * windowWidth) / 16,
-    (5 * windowHeight) / 11 - (14 * windowWidth) / 200,
+    (5 * windowHeight) / 11 - (10 * windowWidth) / 200,
     (14 * windowWidth) / 16,
-    (14 * windowWidth) / 90
+    (14 * windowWidth) / 110
   );
   pop();
 
-  let slider = (5 * windowHeight) / 11 - (14 * windowWidth) / 200;
+  let slider = (5 * windowHeight) / 11 - (10 * windowWidth) / 200;
   if (mouseIsPressed === true) {
-    if (mouseY > slider && mouseY < slider + (14 * windowWidth) / 90) {
-      rect(mouseX, slider, 5, (14 * windowWidth) / 90);
+    if (mouseY > slider && mouseY < slider + (14 * windowWidth) / 110) {
+      rect(mouseX, slider, 5, (14 * windowWidth) / 110);
       vol = map(mouseX, windowWidth / 16, (14 * windowWidth) / 16, 0, 1);
     }
   }
@@ -75,17 +75,17 @@ function draw() {
   socket.emit('volume', vol);
 }
 
-function playControl(value){
+function playControl(value) {
   console.log(`play control: ${value}, current: ${current}`);
   if (value === 1) {
     currentSound[current].play();
-  }else if(value === 0){
+  } else if (value === 0) {
     currentSound[current].pause();
-  }else if(value === 2){
+  } else if (value === 2) {
     currentSound[current].pause();
-    current = (current+1) % 3;
+    current = (current + 1) % 3;
     currentSound[current].play();
-  }else if(value === 3){
+  } else if (value === 3) {
     currentSound[current].pause();
     current = current === 0 ? 2 : current - 1;
     currentSound[current].play();
@@ -94,7 +94,7 @@ function playControl(value){
   }
 }
 
-function volumeControl(value){
+function volumeControl(value) {
   // change volume
   currentSound[current].setVolume(value);
 }
@@ -102,7 +102,7 @@ function volumeControl(value){
 function mousePressed() {
 
   //play
-  if (dist(mouseX, mouseY, (2 * windowWidth) / 4, (3 * windowHeight) / 4) < windowWidth / 6) {
+  if (dist(mouseX, mouseY, (2 * windowWidth) / 4, (3 * windowHeight) / 4 + windowHeight / 16) < windowHeight / 4) {
     console.log(current, status);
     if (status === 0) {
       console.log('playing');
@@ -120,7 +120,9 @@ function mousePressed() {
   }
 
   //next
-  if (dist(mouseX, mouseY, (3 * windowWidth) / 4, (3 * windowHeight) / 4) < windowWidth / 6) {
+  if (dist(mouseX, mouseY, 
+    (3 * windowWidth) / 4, 
+    (3 * windowHeight) / 4 + windowHeight / 16) < windowHeight / 4) {
     currentSound[current].pause();
     current++;
     if (current > currentSound.length - 1) {
@@ -131,7 +133,9 @@ function mousePressed() {
   }
 
   //prev
-  if (dist(mouseX, mouseY, (1 * windowWidth) / 4, (3 * windowHeight) / 4) < windowWidth / 6) {
+  if (dist(mouseX, mouseY, 
+    (1 * windowWidth) / 4, 
+    (3 * windowHeight) / 4) + windowHeight / 16 < windowHeight / 4) {
     currentSound[current].pause();
     current--;
     if (current < 0) {
@@ -142,7 +146,7 @@ function mousePressed() {
   }
 
   //reset
-  if (dist(mouseX, mouseY, (2 * windowWidth) / 3, (1 * windowHeight) / 4) < windowWidth / 6) {
+  if (dist(mouseX, mouseY, (2 * windowWidth) / 3, (1 * windowHeight) / 7.5) < windowHeight / 4) {
     location.reload();
     socket.emit('button', 4);
   }
