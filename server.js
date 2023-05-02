@@ -17,10 +17,20 @@ function newConnection(socket) {
     console.log('new connection: ' + socket.id);
     // console.log(socket);
 
-    socket.on('mouse', mouseMsg);
+    socket.on('button', handleButton);
+    socket.on('volume', volumeSlider);
 
-    function mouseMsg(data) {
-        socket.broadcast.emit('mouse', data);
-        // console.log(data);
+    function volumeSlider(value) {
+      socket.broadcast.emit('volume', value);
+    }
+
+    function handleButton(value){
+      console.log('button control');
+      socket.broadcast.emit('button', value);
     }
 }
+
+
+
+
+
