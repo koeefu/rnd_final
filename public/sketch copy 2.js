@@ -19,7 +19,7 @@ function preload() {
 }
 
 function setup() {
-  socket = io.connect('http://10.23.10.93:3000');
+  socket = io.connect('http://10.23.10.46:3000');
 
   socket.on('button', playControl);
   socket.on('volume', volumeControl);
@@ -100,7 +100,6 @@ function volumeControl(value) {
 }
 
 function mousePressed() {
-
   //play
   if (dist(mouseX, mouseY, (2 * windowWidth) / 4, (3 * windowHeight) / 4 + windowHeight / 16) < windowHeight / 4) {
     console.log(current, status);
@@ -147,7 +146,8 @@ function mousePressed() {
 
   //reset
   if (dist(mouseX, mouseY, (2 * windowWidth) / 3, (1 * windowHeight) / 7.5) < windowHeight / 4) {
-    location.reload();
     socket.emit('button', 4);
+    location.reload();
+    // socket.emit('button', 4);
   }
 }
