@@ -1,1 +1,2 @@
-# rnd_final
+# RnD Final Project
+This project is the final assignment for the class R and D studio, which is about a synchronizing speaker system designed for the elderly who love square dances, maybe also for our own use in the future. The system consists of two speakers, with one being able to control the other through a web socket, resulting in complete synchronization. Through this project, we hope to bring the community together by uniting anyone who wants to dance. By putting other speakers in different locations, we hope people who use them can share the same music and joy at the same time without the boundary of distance. The ultimate goal is not only syncing the music in a technical way, but happiness and movement in a spiritual way.
